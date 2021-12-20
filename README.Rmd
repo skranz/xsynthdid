@@ -1,0 +1,58 @@
+---
+title: "xsynthdid"
+author: Sebastian Kranz, Ulm University
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(xsynthdid)
+```
+
+### Overview
+
+[Arkhangelsky et al. (2021)](https://www.aeaweb.org/articles?id=10.1257/aer.20190159) introduce the novel synthetic difference-in-differences (SDID) method that is implemented in the R package [synthdid](https://github.com/synth-inference/synthdid).
+
+This package has the function `adjust.outcome.for.x` that can be used to adjust the outcome for exogenous time-varying covariates. For more background see my vignette [Synthetic Difference-in-Differences with Time-Varying Covariates (2021)]().
+
+### Installation
+
+You can install the package from my [r-universe repository](https://skranz.r-universe.dev/ui#builds) by using the following code:
+
+```{r eval=FALSE}
+options(repos = c(skranz = 'https://skranz.r-universe.dev',
+    CRAN = 'https://cloud.r-project.org'))
+install.packages("xsynthdid")
+```
+
+### Usage example
+
+We first simulate a panel data set with a true treatment effect of `tau=50` using the function `xsdid.mc` in our package.
+```{r}
+set.seed(1)
+library(xsynthdid)
+dat = xsdid.mc(N=30, T=30,tau=50,return.data = TRUE)
+head(dat)
+```
+
+We first perform SDID estimation without any adjustment for the exogenous covariate `x`:
+```{r}
+pm = panel.matrices(dat, unit="i",time = "t",outcome = "y",treatment = "treat_exp")
+sdid = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0) # inconsistent
+sdid
+```
+
+We see how the estimator is a bit off the true causal effect.
+
+We now adjust the outcomes `y` using the `adjust.outcome.for.x` function and use the adjusted outcome for the SDID estimation.
+```{r}
+dat$y.adj = adjust.outcome.for.x(dat,unit="i",time = "t",
+  outcome = "y",treatment = "treat_exp", x="x")
+pm = panel.matrices(dat, unit="i",time = "t",outcome = "y.adj",treatment = "treat_exp")
+sdid.adj = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0) # inconsistent
+sdid.adj
+```
+
+Our estimate is now pretty close to the true causal effect.
