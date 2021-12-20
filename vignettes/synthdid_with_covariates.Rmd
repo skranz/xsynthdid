@@ -40,7 +40,7 @@ where $\hat \beta$ are the estimated coefficients from above's fixed effects reg
 
 In Section 3 we compare the precision of our proposed estimator with alternative approaches using Monte-Carlo simulations for scenarios in which the SDID could be consistent even without explicitly controlling for the covariates. We show that our approach still generally performs better in terms of a lower RMSE of the estimated causal effect.
 
-The adjustment approach is implemented in the function `adjust.outcome.for.x` in the R package [xsynthdid](link on Github).
+The adjustment approach is implemented in the function `adjust.outcome.for.x` in the R package [xsynthdid](https://github.com/skranz/xsynthdid).
 
 Currently this paper is a mixture of a regular paper and a vignette for that package. In the future, I may write a separate package vignette and rewrite this paper in a more traditional fashion. Also note that this paper currently has no proven results about characteristics of the estimators like consistency, only intuitions and Monte-Carlo simulations. 
 
