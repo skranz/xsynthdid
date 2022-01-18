@@ -1,4 +1,12 @@
-Author: Sebastian Kranz, Ulm University
+---
+title: "xsynthdid"
+author: Sebastian Kranz, Ulm University
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
 
 ### Overview
 
@@ -74,3 +82,26 @@ sdid.adj
 ```
 
 Our estimate is now pretty close to the true causal effect.
+
+### Standard errors
+
+Note that the shown standard errors do not account for the initial adjustment for time varying covariates. Experimentally, I have included the function `xsdid_se_bootstrap` that allows to compute the standard errors using a clustered bootstrap approach similar to Algorithm 2 in [Arkhangelsky et al. (2021)](https://www.aeaweb.org/articles?id=10.1257/aer.20190159).
+
+To speed up the building of the README, here is an example with just `B=10` bootstrap replications. Of course, you should set `B` to a larger number like 500.
+
+
+```r
+xsdid_se_bootstrap(dat,B=10, unit="i",time = "t",outcome = "y",treatment = "treat_exp",x = "x")
+```
+
+```
+## $se
+## [1] 0.1832767
+## 
+## $boot.tau
+##  [1] 49.49238 49.59243 49.33778 49.64696 49.22328 49.31334 49.31244 49.35124
+##  [9] 49.56474 49.88914
+```
+
+
+

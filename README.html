@@ -198,7 +198,7 @@ summary {
 <div id="overview" class="section level3">
 <h3>Overview</h3>
 <p><a href="https://www.aeaweb.org/articles?id=10.1257/aer.20190159">Arkhangelsky et al. (2021)</a> introduce the novel synthetic difference-in-differences (SDID) method that is implemented in the R package <a href="https://github.com/synth-inference/synthdid">synthdid</a>.</p>
-<p>This package has the function <code>adjust.outcome.for.x</code> that can be used to adjust the outcome for exogenous time-varying covariates. For more background see my vignette <a href>Synthetic Difference-in-Differences with Time-Varying Covariates (2021)</a>.</p>
+<p>This package has the function <code>adjust.outcome.for.x</code> that can be used to adjust the outcome for exogenous time-varying covariates. For more background see my vignette <a href="https://github.com/skranz/xsynthdid/blob/main/paper/synthdid_with_covariates.pdf">Synthetic Difference-in-Differences with Time-Varying Covariates (2021)</a>.</p>
 </div>
 <div id="installation" class="section level3">
 <h3>Installation</h3>
@@ -242,6 +242,18 @@ sdid.adj = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0) # inconsistent
 sdid.adj</code></pre>
 <pre><code>## synthdid: 49.398 +- 0.252. Effective N0/N0 = 15.0/15~1.0. Effective T0/T0 = 6.9/15~0.5. N1,T1 = 15,15.</code></pre>
 <p>Our estimate is now pretty close to the true causal effect.</p>
+</div>
+<div id="standard-errors" class="section level3">
+<h3>Standard errors</h3>
+<p>Note that the shown standard errors do not account for the initial adjustment for time varying covariates. Experimentally, I have included the function <code>xsdid_se_bootstrap</code> that allows to compute the standard errors using a clustered bootstrap approach similar to Algorithm 2 in <a href="https://www.aeaweb.org/articles?id=10.1257/aer.20190159">Arkhangelsky et al. (2021)</a>.</p>
+<p>To speed up the building of the README, here is an example with just <code>B=10</code> bootstrap replications. Of course, you should set <code>B</code> to a larger number like 500.</p>
+<pre class="r"><code>xsdid_se_bootstrap(dat,B=10, unit=&quot;i&quot;,time = &quot;t&quot;,outcome = &quot;y&quot;,treatment = &quot;treat_exp&quot;,x = &quot;x&quot;)</code></pre>
+<pre><code>## $se
+## [1] 0.1832767
+## 
+## $boot.tau
+##  [1] 49.49238 49.59243 49.33778 49.64696 49.22328 49.31334 49.31244 49.35124
+##  [9] 49.56474 49.88914</code></pre>
 </div>
 
 

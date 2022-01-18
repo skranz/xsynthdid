@@ -1,7 +1,7 @@
 ---
 title: "Synthetic Difference-in-Differences with Time-Varying Covariates"
 author: "Sebastian Kranz, Ulm University"
-date: "2021-12-16"
+date: "2022-01-18 (First version 2021-12-16)"
 abstract: |
   Arkhangelsky et al. (2021) introduce the novel synthetic difference-in-difference (SDID) method. They briefly note a method to extend SDID for exogenous time-varying covariates. This paper illustrates shortfalls of the proposed method in a simple setting. We propose a simple alternative way to explicitly control for covariates and implement it in the R package `xsynthdid`. This paper illustrates the issue and shows in several Monte-Carlo simulations how the proposed method allows more precise estimation of causal effects.
 output:
@@ -263,7 +263,7 @@ res.rmse %>%
 
 Not too much changes. Qualitatively the insights are the same as before.
 
-### Variation 2: Correlated x and basic time trend
+### Variation 2: Additional unobserved confounder
 
 We now add an unobserved confounder `xc` that has a similar structure than `x` but cannot be added as control variable. The factor loadings are independently drawn to that of `x`. `xc` affect `y` also with a parameter `beta.xc=50`.
 
@@ -280,11 +280,13 @@ The DID estimator that controls for `x` (`didx`) performs worse than all SDID me
 
 Still our proposed SDID estimator (`sdidx`) performs best. The original adjustment proposed by Arkhangelsky et al. (2021)  (`sdid.res`) follows closely behind, however.
 
+# Standard Errors
+
+Note that the shown standard errors in the simulations above, do not account for the uncertainty arising from the initial fixed effects regression to adjust for time varying covariates. To compute standard errors, I have experimentally included into the package the function `xsdid_se_bootstrap` that allows to compute the standard errors using a clustered bootstrap approach similar to Algorithm 2 in [Arkhangelsky et al. (2021)](https://www.aeaweb.org/articles?id=10.1257/aer.20190159). See the README file of the package for an example.
+
 # Concluding Remarks
 
 We provided intuitive arguments for our proposed method to control for covariates in the SDID setting and confirmed more precise results with simulation studies. However, there is clearly scope for a comprehensive theoretical characterization.
-
-Another point not touched in this paper is how to correctly compute standard errors so that the uncertainty from estimating the adjusted outcome is taken into account. 
 
 
 # References
