@@ -26,7 +26,7 @@ example.bootstrap = function() {
 #' @export
 xsdid_estimate = function (panel, unit = 1, time = 2, outcome = 3, treatment = 4,x,x.rows=NULL) {
   y.adj = "...y.adj"
-  dat[[y.adj]] = adjust.outcome.for.x(dat, unit=unit,time =time,outcome = outcome,treatment = treatment,x = x, xrows=xrows)
+  dat[[y.adj]] = adjust.outcome.for.x(dat, unit=unit,time =time,outcome = outcome,treatment = treatment,x = x, x.rows=x.rows)
   pm = panel.matrices(dat, unit=unit,time =time,outcome = y.adj,treatment = treatment)
   sdid = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0)
   sdid
@@ -61,7 +61,15 @@ xsdid_estimate = function (panel, unit = 1, time = 2, outcome = 3, treatment = 4
 #'}
 #' @export
 xsdid_se_bootstrap = function (panel, unit = 1, time = 2, outcome = 3, treatment = 4,x, B=100, num.cores = 1) {
-  restorepoint::restore.point("xsdid_se_bootstrap")
+  #restorepoint::restore.point("xsdid_se_bootstrap")
+  cols = colnames(panel)
+  names(cols) = cols
+  unit = cols[unit]
+  time = cols[time]
+  outcome = yvar= cols[outcome]
+  treatment = cols[treatment]
+  if (is.numeric(x)) x = cols[x]
+
   units = unique(panel[[unit]])
   panel$..unit = panel[[unit]]
   panel$..treatment = as.integer(panel[[treatment]])
@@ -96,7 +104,7 @@ xsdid_se_bootstrap = function (panel, unit = 1, time = 2, outcome = 3, treatment
     bdat = draw_bootstrap_sample(panel, co.units, tr.units,units = units)
     bdat$..y.adj = adjust.outcome.for.x(bdat, unit="..bunit",time =time,outcome = outcome,treatment = treatment,x = x)
     pm = panel.matrices(bdat, unit="..bunit",time =time,outcome = "..y.adj",treatment = treatment)
-    restorepoint::restore.point("jslkfjkdfjlkdjf")
+    #restorepoint::restore.point("jslkfjkdfjlkdjf")
     bsdid = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0)
     as.numeric(bsdid)
   }
