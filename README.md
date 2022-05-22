@@ -1,11 +1,4 @@
----
-title: "xsynthdid"
-author: Sebastian Kranz, Ulm University
-output: 
-  html_document: 
-    keep_md: yes
----
-
+Author: Sebastian Kranz, Ulm University
 
 
 ### Overview
