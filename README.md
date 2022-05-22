@@ -73,7 +73,7 @@ We now adjust the outcomes `y` using the `adjust.outcome.for.x` function and use
 dat$y.adj = adjust.outcome.for.x(dat,unit="i",time = "t",
   outcome = "y",treatment = "treat_exp", x="x")
 pm = panel.matrices(dat, unit="i",time = "t",outcome = "y.adj",treatment = "treat_exp")
-sdid.adj = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0) # inconsistent
+sdid.adj = synthdid_estimate(Y=pm$Y,N0=pm$N0,T0 = pm$T0)
 sdid.adj
 ```
 
