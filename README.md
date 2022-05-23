@@ -7,6 +7,10 @@ Author: Sebastian Kranz, Ulm University
 
 This package has the function `adjust.outcome.for.x` that can be used to adjust the outcome for exogenous time-varying covariates. For more background see my vignette [Synthetic Difference-in-Differences with Time-Varying Covariates (2021)](https://github.com/skranz/xsynthdid/blob/main/paper/synthdid_with_covariates.pdf).
 
+If you use the package for research, you could cite the vignette as:
+
+Kranz, Sebastian (2021), "Synthetic Difference-in-Differences with Time-Varying Covariates", mimeo 
+
 ### Installation
 
 You can install the package from my [r-universe repository](https://skranz.r-universe.dev/ui#builds) by using the following code:
@@ -95,6 +99,7 @@ xsdid_se_bootstrap(dat,B=10, unit="i",time = "t",outcome = "y",treatment = "trea
 ##  [1] 49.49238 49.59243 49.33778 49.64696 49.22328 49.31334 49.31244 49.35124
 ##  [9] 49.56474 49.88914
 ```
+
 
 
 
